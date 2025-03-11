@@ -7,6 +7,8 @@ import { registerUser, loginUser } from '../services/authService';
 // Import styles for the authentication component
 import styles from '../styles/authStyles';  
 
+import PasswordStrengthMeter from './PasswordStrengthMeter';
+
 
 // This component provides both login and registration functionality.
 // Users can toggle between login and registration modes.
@@ -37,6 +39,7 @@ const Login = ({ onLogin }) => {
         console.log("Submitting data:", { username, password });
     
         try {
+            //API Calls
             const response = await fetch(`${backendUrl}${endpoint}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -105,6 +108,11 @@ const Login = ({ onLogin }) => {
                 </button>
             </form>
 
+
+            {/* Password Strength Meter */}
+            {isRegistering && <PasswordStrengthMeter password={password} />}
+                {!isRegistering }
+
             {/* Toggle button to switch between login and registration modes */}
             <p style={styles.toggleText}>
                 {isRegistering ? "Already have an account?" : "Don't have an account?"}
@@ -122,3 +130,49 @@ const Login = ({ onLogin }) => {
 
 // Export the Login component so it can be used in other parts of the application
 export default Login;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+
+// const loginUser = async (username, password) => {
+//     try {
+//         const response = await fetch(`${backendUrl}/auth/login`, { 
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify({ username, password }),
+//         });
+
+//         const data = await response.json();
+
+//         if (!response.ok) throw new Error(data.message || "Login failed.");
+
+//         console.log("Login successful:", data);
+//         return data;
+//     } catch (error) {
+//         console.error("Login error:", error);
+//         throw error;
+//     }
+// };
+
+// // Usage Example
+// loginUser("testUser", "password123")
+//     .then(data => console.log("User logged in:", data))
+//     .catch(error => console.log("Failed to login:", error.message));
